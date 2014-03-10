@@ -7,7 +7,7 @@ public class TileController : MonoBehaviour {
 	private int x = 0;
 	private int y = 0;
 	private int teamOccupying = -1;
-	private List<TileController> occupation;
+	private List<GamePiece> occupants;
 
 	public int NE = 1;
 	public int  E = 1;
@@ -18,7 +18,7 @@ public class TileController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		occupation = new List<TileController>();
+		occupants = new List<GamePiece>();
 
 		NE = Random.Range (1, 4);
 		E  = Random.Range (1, 4);
@@ -63,7 +63,41 @@ public class TileController : MonoBehaviour {
 		return this;
 	}
 
-	//public int GetNumberOf
+	public int GetNumberOfOccupants()
+	{
+		return occupants.Count;
+	}
+
+	public int GetOccupantsTeam()
+	{
+		return teamOccupying;
+	}
+
+	public List<GamePiece> GetOccupants()
+	{
+		return occupants;
+	}
+
+	public void AddOccupants(GamePiece occupant)
+	{
+		if (occupants.Count == 3) 
+		{
+			return;
+		}
+
+		if (occupants.Count == 0) {
+			teamOccupying = occupant.whichTeam;
+		}
+		occupants.Add (occupant);
+	}
+
+	public void RemoveOccupants(GamePiece occupant)
+	{
+		occupants.Remove (occupant);
+		if (occupants.Count == 0) {
+			teamOccupying = -1;
+		}
+	}
 
 	// Update is called once per frame
 	void Update () {

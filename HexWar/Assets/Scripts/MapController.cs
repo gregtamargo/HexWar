@@ -48,6 +48,11 @@ public class MapController : MonoBehaviour {
 		}
 	}
 
+	public static TileController GetTile(int x, int y)
+	{
+		return tiles [x] [y].GetComponent<TileController> ();
+	}
+
 	public static TileController Highlight(int x, int y)
 	{
 		return tiles [x] [y].GetComponent<TileController> ().Highlight ();

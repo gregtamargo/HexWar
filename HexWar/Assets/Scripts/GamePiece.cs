@@ -91,7 +91,8 @@ public class GamePiece : MonoBehaviour {
 						{
 							Debug.Log ("PLACE IT "+Time.time);
 							transform.position = closestTile.position;
-							
+
+
 							 
 							currentX = thatTile.GetX();
 							currentY = thatTile.GetY();
@@ -99,12 +100,16 @@ public class GamePiece : MonoBehaviour {
 							if(initialX<0)
 							{
 								Debug.Log ("JUST GOT PLACED FOR THE FIRST TIME!"+Time.time);
+
 								initialX = currentX;
 								initialY = currentY;
 								ableToAct = false;
 							}
+							else{
+								MapController.GetTile(initialX,initialY).RemoveOccupants(this);
+							}
 
-
+							thatTile.AddOccupants (this);
 						}
 						else{
 							Debug.Log ("1 SNAP IT BACK"+Time.time);
@@ -264,9 +269,13 @@ public class GamePiece : MonoBehaviour {
 				if(/*space.terrainCost*/1<= movesRemaining)
 				{
 					//add this space to the list of possible spaces
+					int tileAlignment = tile.GetOccupantsTeam();
 					if(!possibleMoves.Contains (tile))
 					{
-						possibleMoves.Add(MapController.Highlight (tile.GetX(),tile.GetY()));
+						if(tileAlignment == -1 || (tileAlignment == whichTeam && tile.GetNumberOfOccupants()<3))
+						{
+							possibleMoves.Add(MapController.Highlight (tile.GetX(),tile.GetY()));
+						}
 					}
 				 	if(/*space.terrainCost*/1<movesRemaining)
 					{
